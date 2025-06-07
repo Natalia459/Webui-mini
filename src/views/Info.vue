@@ -1,3 +1,38 @@
+<template>
+  <div>
+    <h1 class="overview-title">Overview</h1>
+    <div class="settings-grid">
+      <div class="setting-section">
+        <div class="setting-description">
+          <h3 class="setting-title">BMC base system information</h3>
+          <p class="setting-text">Username: {{ username }}</p>
+          <p class="setting-text">Running firmware ID: {{ firmwareVersion }}</p>
+          <p class="setting-text">Model: {{ model }}</p>
+        </div>
+      </div>
+      
+      <div class="setting-section">
+        <div class="setting-description">
+          <h3 class="setting-title">BMC base network information</h3>
+          <p class="setting-text">Link status: {{ linkStatus }}</p>
+          <p class="setting-text">Protocols used: Redfish, HTTPS</p>
+        </div>
+      </div>
+      
+      <div class="setting-section">
+        <div class="setting-description">
+          <h3 class="setting-title">BMC status</h3>
+          <p class="setting-text">Health: {{ healthStatus }}</p>
+        </div>
+      </div>
+      
+      <button class="reboot-button" @click="refresh" :disabled="loading">
+        {{ loading ? 'Refreshing...' : 'Refresh' }}
+      </button>
+    </div>
+  </div>
+</template>
+
 <script setup>
 import { ref, computed, onMounted, watchEffect } from 'vue'
 import { useStore } from 'vuex'
@@ -44,7 +79,7 @@ const refresh = async () => {
     await Promise.all([
       store.dispatch('firmware/getFirmwareInformation'),
       store.dispatch('system/getSystem'),
-      store.dispatch('network/getGlobalNetworkSettings'),
+      store.dispatch('network/getEthernetData'),
       store.dispatch('eventLog/getEventLogData')
     ])
   } finally {
@@ -72,41 +107,6 @@ onMounted(async () => {
 
 const emit = defineEmits(['refresh'])
 </script>
-
-<template>
-  <div>
-    <h1 class="overview-title">Overview</h1>
-    <div class="settings-grid">
-      <div class="setting-section">
-        <div class="setting-description">
-          <h3 class="setting-title">BMC base system information</h3>
-          <p class="setting-text">Username: {{ username }}</p>
-          <p class="setting-text">Running firmware ID: {{ firmwareVersion }}</p>
-          <p class="setting-text">Model: {{ model }}</p>
-        </div>
-      </div>
-      
-      <div class="setting-section">
-        <div class="setting-description">
-          <h3 class="setting-title">BMC base network information</h3>
-          <p class="setting-text">Link status: {{ linkStatus }}</p>
-          <p class="setting-text">Protocols used: Redfish, HTTPS</p>
-        </div>
-      </div>
-      
-      <div class="setting-section">
-        <div class="setting-description">
-          <h3 class="setting-title">BMC status</h3>
-          <p class="setting-text">Health: {{ healthStatus }}</p>
-        </div>
-      </div>
-      
-      <button class="reboot-button" @click="refresh" :disabled="loading">
-        {{ loading ? 'Refreshing...' : 'Refresh' }}
-      </button>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 .overview-title {

@@ -11,9 +11,9 @@ const app = createApp(App);
 app.use(router)
 app.use(store);
 
-app.config.globalProperties.$bus = $bus;
-
 app.mount('#app')
+
+app.config.globalProperties.$bus = $bus;
 
 //Filters
 const filter = {

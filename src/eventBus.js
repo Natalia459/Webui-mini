@@ -32,7 +32,6 @@ class eventBus{
         this.events[eventName] = this.events[eventName] || [];
         this.events[eventName].push(fn);
     }
-
 }
 
 export default new eventBus();

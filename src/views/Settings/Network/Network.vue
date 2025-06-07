@@ -9,25 +9,19 @@
       <div class="setting-section">
         <!-- Interface settings -->
         <NetworkInterfaceSettings :tab-index="$tabIndex" />
-        <slot />
       </div>
       <div class="setting-section">
         <div class="setting-content">
           <!-- IPV4 table -->
           <TableIpv4 :tab-index="$tabIndex" />
         </div>
-        <slot />
       </div>
       <div class="setting-section">
         <div class="setting-content">
           <!-- IPV6 table -->
           <TableIpv6 :tab-index="$tabIndex" />
         </div>
-        <slot />
       </div>
-
-      <!-- Modals -->
-      <ModalMacAddress :mac-address="currentMacAddress" @ok="saveSettings" />
     </div>
   </div>
 </template>
@@ -37,7 +31,6 @@
   import { useStore } from 'vuex'
   import { useRouter } from 'vue-router'
   import { getCurrentInstance } from 'vue'
-  import ModalMacAddress from './ModalMacAddress.vue'
   import NetworkInterfaceSettings from './NetworkInterfaceSettings.vue'
   import TableIpv4 from './TableIpv4.vue'
   import TableIpv6 from './TableIpv6.vue'
